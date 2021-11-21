@@ -12122,10 +12122,13 @@ public class SemanticAnalyzer extends BaseSemanticAnalyzer {
   void analyzeInternal(ASTNode ast, PlannerContextFactory pcf) throws SemanticException {
     LOG.info("Starting Semantic Analysis");
     // 1. Generate Resolved Parse tree from syntax tree
+    // 1.从语法树生成解析树
     boolean needsTransform = needsTransform();
     //change the location of position alias process here
+    //在这里更改位置别名过程的位置
     processPositionAlias(ast);
     PlannerContext plannerCtx = pcf.create();
+    // 语义解析
     if (!genResolvedParseTree(ast, plannerCtx)) {
       return;
     }
@@ -12161,6 +12164,8 @@ public class SemanticAnalyzer extends BaseSemanticAnalyzer {
     }
 
     // 2. Gen OP Tree from resolved Parse Tree
+    // 2. 从解析树生成逻辑执行计划
+    // 解析QB生成一个Operator Tree，其实是生成一个DAG
     Operator sinkOp = genOPTree(ast, plannerCtx);
 
     boolean usesMasking = false;
